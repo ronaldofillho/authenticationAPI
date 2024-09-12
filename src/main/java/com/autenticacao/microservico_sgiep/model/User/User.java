@@ -23,5 +23,5 @@ public class User {
     private String password;
     
     @Enumerated(EnumType.STRING)
-    private UserRole role;  // Adicionando o campo para armazenar a regra
+    private UserRole role;
 }
