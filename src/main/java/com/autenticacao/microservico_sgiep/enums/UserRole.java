@@ -1,4 +1,4 @@
-package com.autenticacao.microservico_sgiep.model.User;
+package com.autenticacao.microservico_sgiep.enums;
 
 public enum UserRole {
     ADMIN("admin"),

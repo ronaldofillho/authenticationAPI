@@ -1,6 +1,7 @@
 package com.autenticacao.microservico_sgiep.model.User;
 
 
+import com.autenticacao.microservico_sgiep.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -23,12 +24,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String login;
+    private String name;
+    private String email;
     private String password;
     private UserRole role;
 
-    public User(String login, String password, UserRole role){
-        this.login = login;
+    public User(String email, String password, UserRole role){
+        this.email = email;
         this.password = password;
         this.role = role;
     }
@@ -41,7 +43,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
     @Override
