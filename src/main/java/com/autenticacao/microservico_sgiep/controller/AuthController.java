@@ -26,35 +26,36 @@ public class AuthController {
     private final TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO body){
-    User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
-    if(passwordEncoder.matches(body.password(), user.getPassword())) {
-        String token = this.tokenService.generateToken(user);
-        return ResponseEntity.ok(new ResponseDTO(user.getName(), token, user.getRole().getRole()));
+    public ResponseEntity login(@RequestBody LoginRequestDTO body) {
+        User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (passwordEncoder.matches(body.password(), user.getPassword())) {
+            String token = this.tokenService.generateToken(user);
+            return ResponseEntity.ok(new ResponseDTO(user.getName(), token, user.getRole().getRole()));
+        }
+
+        return ResponseEntity.badRequest().body("Invalid credentials");
     }
-    return ResponseEntity.badRequest().build();
-}
 
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterRequestDTO body){
-    Optional<User> user = this.repository.findByEmail(body.email());
+    public ResponseEntity register(@RequestBody RegisterRequestDTO body) {
+        Optional<User> user = this.repository.findByEmail(body.email());
 
-    if(user.isEmpty()) {
-        User newUser = new User();
-        newUser.setPassword(passwordEncoder.encode(body.password()));
-        newUser.setEmail(body.email());
-        newUser.setName(body.name());
-        
-        // Atribuindo a regra dinamicamente
-        UserRole role = UserRole.valueOf(body.role().toUpperCase());
-        newUser.setRole(role);
-        
-        this.repository.save(newUser);
+        if (user.isEmpty()) {
+            User newUser = new User();
+            newUser.setPassword(passwordEncoder.encode(body.password()));
+            newUser.setEmail(body.email());
+            newUser.setName(body.name());
 
-        String token = this.tokenService.generateToken(newUser);
-        return ResponseEntity.ok(new ResponseDTO(newUser.getName(), token, newUser.getRole().getRole()));
+            UserRole role = UserRole.valueOf(body.role().toUpperCase());
+            newUser.setRole(role);
+
+            this.repository.save(newUser);
+
+            return ResponseEntity.ok("User registered successfully");
+        }
+
+        return ResponseEntity.badRequest().body("User already exists");
     }
-    return ResponseEntity.badRequest().build();
-}
 }
