@@ -2,7 +2,10 @@ package com.autenticacao.microservico_sgiep.enums;
 
 public enum UserRole {
     ADMIN("admin"),
-    USER("user");
+    PROFESSOR("professor"),
+    MANAGER("manager"),
+    CITIZEN("citizen");
+
 
     private String role;
 
