@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.autenticacao.microservico_sgiep.enums.UserRole;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -47,6 +48,8 @@ public class AuthController {
             newUser.setPassword(passwordEncoder.encode(body.password()));
             newUser.setEmail(body.email());
             newUser.setName(body.name());
+
+            newUser.setActive(!Objects.equals(body.role(), "MANAGER") && !Objects.equals(body.role(), "PROFESSOR"));
 
             UserRole role = UserRole.valueOf(body.role().toUpperCase());
             newUser.setRole(role);
