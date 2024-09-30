@@ -49,7 +49,11 @@ public class AuthController {
             newUser.setEmail(body.email());
             newUser.setName(body.name());
 
-            newUser.setActive(!Objects.equals(body.role(), "MANAGER") && !Objects.equals(body.role(), "PROFESSOR"));
+            if (Objects.equals(body.role(), "manager") || Objects.equals(body.role(), "professor")) {
+                newUser.setActive(false);
+            } else {
+                newUser.setActive(true);
+            }
 
             UserRole role = UserRole.valueOf(body.role().toUpperCase());
             newUser.setRole(role);
