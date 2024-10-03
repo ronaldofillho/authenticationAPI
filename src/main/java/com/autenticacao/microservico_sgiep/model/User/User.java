@@ -22,6 +22,8 @@ public class User {
     private String email;
     private String password;
     private boolean active;
+    private String phone;
+    private String address;
     
     @Enumerated(EnumType.STRING)
     private UserRole role;

@@ -48,6 +48,8 @@ public class AuthController {
             newUser.setPassword(passwordEncoder.encode(body.password()));
             newUser.setEmail(body.email());
             newUser.setName(body.name());
+            newUser.setAddress(body.address());
+            newUser.setPhone(body.phone());
 
             if (Objects.equals(body.role(), "manager") || Objects.equals(body.role(), "professor")) {
                 newUser.setActive(false);
